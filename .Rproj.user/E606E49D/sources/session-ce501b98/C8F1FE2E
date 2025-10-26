@@ -1,26 +1,26 @@
 {
-    "id": "AD71DB74",
-    "path": "~/Desktop/QCseq/R/hello.R",
-    "project_path": "R/hello.R",
+    "id": "C8F1FE2E",
+    "path": "~/Desktop/QCseq/R/QCcompute.R",
+    "project_path": "R/QCcompute.R",
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1761496458094.0,
+    "created": 1761498639416.0,
     "source_on_save": false,
-    "relative_order": 1,
+    "relative_order": 3,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "18,0",
-        "scrollLine": "0"
+        "cursorPosition": "47,24",
+        "scrollLine": "31"
     },
     "folds": "",
-    "lastKnownWriteTime": 1761496455,
+    "lastKnownWriteTime": 1761522680,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1761496455,
+    "last_content_update": 1761522680614,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -1,0 +1,72 @@
+library(dplyr)
+library(Seurat)
+library(patchwork)
+
+# load the PBMC dataset
+pbmc.data <- Read10X(data.dir = "/Users/anzaralvi/Downloads/filtered_gene_bc_matrices/hg19/")
+
+# initialize the Seurat object with the raw (non-normalized data).
+pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
+
+# subset 10,000 genes and 1,000 cells randomly
+pbmc_subset <- pbmc
+typeof(pbmc_subset)
+print(pbmc_subset)
+
+# ==========================================
+# 1️⃣ Extract expression matrix properly (Seurat v5)
+# ==========================================
+expr_mat <- GetAssayData(pbmc_subset, assay = "RNA", slot = "counts")
+
+# ==========================================
+# 2️⃣ Compute QC metrics manually
+# ==========================================
+
+# Number of detected genes per cell (nonzero counts)
+nFeature_RNA <- Matrix::colSums(expr_mat > 0)
+
+# Total transcripts per cell (total UMI counts)
+nCount_RNA <- Matrix::colSums(expr_mat)
+
+# Mitochondrial genes (pattern = "^MT-")
+mito_genes <- grep("^MT-", rownames(expr_mat), value = TRUE)
+if (length(mito_genes) > 0) {
+  mito_counts <- Matrix::colSums(expr_mat[mito_genes, , drop = FALSE])
+  percent.mt <- 100 * mito_counts / nCount_RNA
+} else {
+  percent.mt <- rep(NA, ncol(expr_mat))
+}
+
+# Ribosomal genes
+ribo_genes <- grep("^RPL|^RPS", rownames(expr_mat), value = TRUE)
+if (length(ribo_genes) > 0) {
+  ribo_counts <- Matrix::colSums(expr_mat[ribo_genes, , drop = FALSE])
+  percent.ribo <- 100 * ribo_counts / nCount_RNA
+} else {
+  percent.ribo <- rep(NA, ncol(expr_mat))
+}
+
+# ==========================================
+# 3️⃣ Combine into a QC data frame
+# ==========================================
+qc_df <- data.frame(
+  Cell = colnames(expr_mat),
+  nFeature_RNA = nFeature_RNA,
+  nCount_RNA = nCount_RNA,
+  percent.mt = percent.mt,
+  percent.ribo = percent.ribo,
+  stringsAsFactors = FALSE
+)
+
+# Preview
+head(qc_df)
+
+# ==========================================
+# 4️⃣ (Optional) Add these metrics back into Seurat object
+# ==========================================
+pbmc_subset <- AddMetaData(pbmc_subset, metadata = qc_df[, -1])  # drop cell column
+
+# ==========================================
+# 5️⃣ (Optional) Visualize QC metrics
+# ==========================================
+VlnPlot(pbmc_subset, features = c("nFeature_RNA", "nCount_RNA", "percent.mt", "percent.ribo"), ncol = 4)
