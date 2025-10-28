@@ -11,7 +11,7 @@
 #' @return Returns a dataframe where rows are Cells, and columns are:
 #' number of genes (nGenes), number of transcripts (nTranscripts),
 #' percentage of mitochondrial genes (percent_mit), and percentage of ribosomal
-#' genes (percent_ribo)
+#' genes (percent_ribo).
 #'
 #' @examples
 #' # TODO
@@ -21,8 +21,6 @@
 #' # ChatGPT
 #' # https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/nbt2.12115
 #' # above is for inspiration on what QC metrics to extract
-#' # https://pmc.ncbi.nlm.nih.gov/articles/PMC8789062/
-#' # above is for inspiration on using MAD standardization
 #'
 #' @export
 #' @import Seurat
