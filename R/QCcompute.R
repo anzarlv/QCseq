@@ -5,17 +5,28 @@
 #' per cell, 3) percentage of mitochondrial genes, and 4) percentage of
 #' ribosomal genes.
 #'
-#' @param expr_matrix
+#' @param expr_matrix A Seurat object, RNA assay, gene expression matrix
+#' where columns are cells and rows are genes.
 #'
+#' @return Returns a dataframe where rows are Cells, and columns are:
+#' number of genes (nGenes), number of transcripts (nTranscripts),
+#' percentage of mitochondrial genes (percent_mit), and percentage of ribosomal
+#' genes (percent_ribo)
+#'
+#' @examples
+#' # TODO
+#'
+#' @references
+#' # TODO
+#' # ChatGPT
+#' # https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/nbt2.12115
+#' # above is for inspiration on what QC metrics to extract
+#' # https://pmc.ncbi.nlm.nih.gov/articles/PMC8789062/
+#' # above is for inspiration on using MAD standardization
+#'
+#' @export
 #' @import Seurat
 #' @import Matrix
-
-
-
-# https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/nbt2.12115
-
-#this paper for inspo on what metrics to extract
-
 
 QCcompute <- function(expr_matrix) {
   # Properly extract the expression matrix
