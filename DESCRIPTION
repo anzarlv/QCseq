@@ -3,7 +3,7 @@ Type: Package
 Title: QCseq: Quality Control Sequencing
 Version: 0.1.0
 Authors@R: person("Anzar", "Alvi",
-                  email = "anzar.alvi@mail.utoronto.ca"
+                  email = "anzar.alvi@mail.utoronto.ca",
                   role = c("aut", "cre"))
 Description: QCseq is an R package to compute and visualize quality control 
   metrics for single-cell RNA-seq (scRNA-seq) gene expression data, providing 
@@ -13,4 +13,15 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+Depends: 
+    R (>= 3.5)
 Imports:
+  Seurat,
+  ggplot2,
+  stats
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
