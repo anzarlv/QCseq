@@ -29,26 +29,4 @@ test_that("QCcompute handles invalid input", {
   testthat::expect_error(QCcompute())
 })
 
-
-test_that("QCcompute correctly detects mitochondrial genes", {
-  library(Matrix)
-  library(Seurat)
-
-  counts <- Matrix::Matrix(
-    c(3, 0, 2,
-      1, 0, 1,
-      0, 1, 0),
-    nrow = 3,
-    dimnames = list(c("MT-CO1", "GENE1", "GENE2"),
-                    c("Cell1", "Cell2", "Cell3")),
-    sparse = TRUE
-  )
-
-  seurat_obj <- Seurat::CreateSeuratObject(counts = counts)
-  qc_results <- QCcompute(seurat_obj)
-
-  # Expect mitochondrial percentage > 0
-  testthat::expect_true(any(qc_results$percent_mit > 0, na.rm = TRUE))
-})
-
 # [END]

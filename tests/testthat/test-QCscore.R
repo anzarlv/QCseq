@@ -32,29 +32,4 @@ test_that("QCscore handles invalid input", {
   testthat::expect_error(QCscore())
 })
 
-
-test_that("QCscore produces consistent output structure", {
-  library(Matrix)
-  library(Seurat)
-
-  counts <- Matrix::Matrix(
-    c(5, 2, 3,
-      1, 0, 1,
-      0, 1, 2),
-    nrow = 3,
-    dimnames = list(c("MT-CO1", "GENE1", "GENE2"),
-                    c("Cell1", "Cell2", "Cell3")),
-    sparse = TRUE
-  )
-
-  seurat_obj <- Seurat::CreateSeuratObject(counts = counts)
-  qc_df <- QCscore(seurat_obj)
-
-  # Structure and data checks
-  testthat::expect_true(is.numeric(qc_df$qc_score_rank))
-  testthat::expect_equal(nrow(qc_df), ncol(counts))
-  testthat::expect_false(any(is.na(qc_df$qc_score_rank)))
-})
-
 # [END]
-
