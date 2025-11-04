@@ -1,0 +1,12 @@
+citHeader("To cite QCseq in publications use:")
+
+citEntry(entry = "Unpublished",
+  title        = "QCseq: Quality Control Sequencing",
+  author       = "Anzar Alvi",
+  note         = "Unpublished",
+  year         = "2025",
+
+  textVersion  =
+  paste("Anzar, A. (2025) QCseq: Quality Control Sequencing.
+  Unpublished. URL https://github.com/anzarlv/QCseq.")
+)
