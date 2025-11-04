@@ -45,7 +45,7 @@ QCcompute <- function(expr_matrix) {
   get_gene_percentage <- function(expr_matrix, pattern, total_counts) {
     genes <- grep(pattern, rownames(expr_matrix), value = TRUE)
     if (length(genes) > 0) {
-      gene_counts <- Matrix::colSums(expr_matrix[genes, , drop = FALSE])
+      gene_counts <- colSums(expr_matrix[genes, , drop = FALSE])
       percent <- gene_counts / total_counts * 100
     } else {
       percent <- rep(NA, ncol(expr_matrix))
