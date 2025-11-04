@@ -9,19 +9,28 @@
 #' @return Returns ggplot histogram plot.
 #'
 #' @examples
-#' # TODO
+#' # Using sample_scRNAseq dataset available with the package
+#' data("sample_scRNAseq") # Access sample data
+#' QChistogram(sample_scRNAseq) # Output histogram for QC scores
 #'
 #' @references
-#' # TODO
+#' R Core Team (2025). _R: A Language and Environment for Statistical
+#' Computing_. R Foundation for Statistical Computing, Vienna, Austria.
+#' https://www.R-project.org/.
+#'
+#' Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis.
+#' Springer-Verlag New York. ISBN 978-3-319-24277-4,
+#' https://ggplot2.tidyverse.org.
 #'
 #' @import ggplot2
 #' @export
 
 QChistogram <- function(expr_matrix) {
   main_df <- QCseq::QCscore(expr_matrix)
-  print(main_df)
-  # generate histogram of QC scores
-  p <- ggplot2::ggplot(main_df, aes(x = qc_score_rank)) +
+
+  # Generate histogram of QC scores
+  # We use ggplot2 (Wickham, 2016) package here
+  p <- ggplot2::ggplot(main_df, aes(x = .data$qc_score_rank)) +
     geom_histogram(
       bins = 50,
       fill = "#4C72B0",

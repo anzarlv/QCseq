@@ -1,4 +1,4 @@
-#' Return a PCA
+#' PCA plot labeled by QC score
 #'
 #' The function performs a principal component analysis (PCA) on key scRNAseq
 #' QC metrics including nGenes, nTranscripts, percent_mit, and percent_ribo.
@@ -12,12 +12,22 @@
 #' @return Returns ggplot PCA scatter plot labeled by QC rank score.
 #'
 #' @examples
-#' # TODO
+#' # Using sample_scRNAseq dataset available with the package
+#' data("sample_scRNAseq") # Access sample data
+#' QCpca(sample_scRNAseq) # Output PCA plot based on QC scores
 #'
 #' @references
-#' # TODO
+#' R Core Team (2025). _R: A Language and Environment for Statistical
+#' Computing_. R Foundation for Statistical Computing, Vienna, Austria.
+#' https://www.R-project.org/.
+#'
+#' Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis.
+#' Springer-Verlag New York. ISBN 978-3-319-24277-4,
+#' https://ggplot2.tidyverse.org.
 #'
 #' @import ggplot2
+#' @importFrom stats prcomp
+#'
 #' @export
 
 QCpca <- function(expr_matrix) {
@@ -39,7 +49,8 @@ QCpca <- function(expr_matrix) {
   var_explained <- round(summary(pca_res)$importance[2, 1:2] * 100, 1)
 
   # PCA plot colored by QC rank score
-  p <- ggplot2::ggplot(pca_df, aes(x = PC1, y = PC2, color = qc_score_rank)) +
+  # We use ggplot2 (Wickham, 2016) package here
+  p <- ggplot2::ggplot(pca_df, aes(x = .data$PC1, y = .data$PC2, color = .data$qc_score_rank)) +
     geom_point(alpha = 0.8, size = 1.8) +
     scale_color_viridis_c(option = "plasma") +
     theme_minimal(base_size = 14) +

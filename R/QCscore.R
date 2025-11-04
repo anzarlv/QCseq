@@ -13,18 +13,46 @@
 #' genes (percent_ribo), and unified QC score (qc_score_rank).
 #'
 #' @examples
-#' # TODO
+#' # Using sample_scRNAseq dataset available with the package
+#' data("sample_scRNAseq") # Access sample data
+#' qc_results_with_score <- QCscore(sample_scRNAseq) # QC metrics + Score
+#' head(qc_results_with_score) # Display results head
 #'
 #' @references
-#' # TODO
-#' # ChatGPT
-#' # https://pmc.ncbi.nlm.nih.gov/articles/PMC8789062/
-#' # above is for inspiration on using MAD standardization
+#' Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J.,
+#' Stewart, R., & Kendziorski, C. (2021). Enhancing biological signals and
+#' detection rates in single-cell RNA-seq experiments with cDNA library
+#' equalization. Nucleic Acids Research, 50(2), e12–e12.
+#' https://doi.org/10.1093/nar/gkab1071.
+#'
+#' OpenAI. (2025). ChatGPT. ChatGPT 5; OpenAI. https://chatgpt.com/.
+#'
+#' R Core Team (2025). _R: A Language and Environment for Statistical
+#' Computing_. R Foundation for Statistical Computing, Vienna, Austria.
+#' https://www.R-project.org/.
+#'
+#' @importFrom stats IQR median
 #'
 #' @export
 
-
 QCscore <- function(expr_matrix) {
+  # Internal helper
+  # ChatGPT (OpenAI, 2025) helped with setting up the template for this helper
+  # Bacher et al.'s (2021) research team inspired me to use MAD standardization
+  robust_scale <- function(x) {
+    m   <- median(x, na.rm = TRUE)
+    mad <- mad(x, constant = 1.4826, na.rm = TRUE)
+    # 1.4826 is the constant for
+    # the mad function
+    # (R documentation)
+    if (!is.finite(mad) || mad == 0) {
+      iq <- IQR(x, na.rm = TRUE)
+      if (!is.finite(iq) || iq == 0) return(scale(x))
+      return((x - m) / (iq / 1.349)) # used for scaling
+    }
+    (x - m) / mad
+  }
+
   # Call QCcompute to extract QC metrics
   qc_df <- QCseq::QCcompute(expr_matrix)
 
@@ -35,9 +63,9 @@ QCscore <- function(expr_matrix) {
   # Positive for nGenes & nTranscripts
   # Negative for percent_mit
   df_scaled <- data.frame(
-    nGenes =  QCseq::robust_scale(qc_sub$nGenes),
-    nTranscipts = QCseq::robust_scale(qc_sub$nTranscipts),
-    percent_mit = -(QCseq::robust_scale(qc_sub$percent_mit))
+    nGenes =  robust_scale(qc_sub$nGenes),
+    nTranscipts = robust_scale(qc_sub$nTranscipts),
+    percent_mit = -(robust_scale(qc_sub$percent_mit))
   )
   rownames(df_scaled) <- qc_df$Cell
 
@@ -54,18 +82,4 @@ QCscore <- function(expr_matrix) {
 
   # Return final dataframe that includes both independent QC metrics + QC score
   return(qc_df)
-}
-
-# Helper Functions
-robust_scale <- function(x) {
-  m   <- median(x, na.rm = TRUE)
-  mad <- mad(x, constant = 1.4826, na.rm = TRUE) # 1.4826 is the constant for
-                                                 # the mad function
-                                                 # (R documentation)
-  if (!is.finite(mad) || mad == 0) {
-    iq <- IQR(x, na.rm = TRUE)
-    if (!is.finite(iq) || iq == 0) return(scale(x))
-    return((x - m) / (iq / 1.349)) # used for scaling
-  }
-  (x - m) / mad
 }
