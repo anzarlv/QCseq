@@ -1,0 +1,133 @@
+---
+title: "Introduction_QCseq"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction_QCseq}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+**QCseq** is an R package to compute and visualize quality control metrics for 
+RNA-seq gene expression data, providing sample-level QC scores to assess data quality.
+
+To download **QCseq**, use the following commands:
+
+```r
+require("devtools")
+devtools::install_github("anzarlv/QCseq", build_vignettes = TRUE)
+library("QCseq")
+```
+
+To list all functions available in the package:
+
+```r
+ls("package:QCseq")
+```
+## Computing independent quality control metrics
+
+The function computes the following quality control metrics from a scRNA-seq 
+gene expression matrix: 1) number of detected genes per cell, 2) total 
+transcripts per cell, 3) percentage of mitochondrial genes, and 4) percentage of
+ribosomal genes.
+
+```{r}
+library(QCseq)
+library(Seurat)
+metrics <- QCcompute(sample_scRNAseq)
+head(metrics)
+
+nGenes <- metrics$nGenes
+nTranscripts <- metrics$nTranscripts
+percent_mit <- metrics$percent_mit
+percent_ribo <- metrics$percent_ribo
+
+# sample_scRNAseq is the example dataset provided in the package
+# Independent metrics can be accessed
+```
+
+## Computing unified quality control score
+
+Computes a unified quality control score from 3 independent QC metrics (nGenes, nTranscripts, and percent_mit) using median absolute deviation (MAD) 
+standardization and rank-based scores.
+
+```{r}
+metrics_with_score <- QCscore(sample_scRNAseq)
+head(metrics_with_score)
+
+qc_score_rank <- metrics_with_score$qc_score_rank
+
+# qc_score_rank can be accessed from the output of QCscore
+```
+
+## Return a clear summary report for the gene expression data
+
+Returns a clear summary report for the gene expression data using the key 
+quality control metrics (nGenes, nTranscripts, percent_mit, and percent_ribo)
+and the signature QC score that combines the metrics.
+
+```{r}
+cat(QCsummary(sample_scRNAseq))
+```
+
+## Histogram of QC scores across all samples
+
+Returns a publication-level histogram where x-axis is quality control score
+(from QCscore function) and y-axis is frequency.
+
+```{r, fig.width=10, fig.height=6, out.width="100%"}
+library(ggplot2)
+plot_histo <- QChistogram(sample_scRNAseq)
+plot_histo
+```
+
+
+## PCA plot labeled by QC score
+
+The function performs a principal component analysis (PCA) on key scRNAseq QC 
+metrics including nGenes, nTranscripts, percent_mit, and percent_ribo. PCA is 
+then applied to numeric QC features to reduce the data to 2 main dimensions 
+(PC1 and PC2), which capture the greatest sources of variation among the cells.
+
+```{r, fig.width=10, fig.height=6, out.width="100%"}
+library(ggplot2)
+plot_pca <- QCpca(sample_scRNAseq)
+plot_pca
+```
+
+## Package reference
+
+- Alvi, A. (2025) QCseq: Quality Control Sequencing. Unpublished.
+  https://github.com/anzarlv/QCseq
+  
+## References
+
+- Andrews, T. S., & Hemberg, M. (2018). Identifying cell populations with scRNASeq. Molecular Aspects of Medicine, 59, 114–122. https://doi.org/10.1016/j.mam.2017.07.002.
+
+- Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J., Stewart, R., & Kendziorski, C. (2021). Enhancing biological signals and detection rates in single-cell RNA-seq experiments with     cDNA library equalization. Nucleic Acids Research, 50(2), e12–e12. https://doi.org/10.1093/nar/gkab1071.
+
+- Hao, Y., Stuart, T. A., Kowalski, M. H., Choudhary, S., Hoffman, P., Hartman, A., Srivastava, A., Molla, G., Shaista Madad, Fernandez-Granda, C., & Rahul atija. (2023). Dictionary learning for integrative, multimodal and scalable single-cell analysis. Nature Biotechnology, 42, 293–304. https://doi.org/10.1038/s41587-023-01767-y
+
+- Lu, J., Sheng, Y., Qian, W., Pan, M., Zhao, X., & Ge, Q. (2023). scRNA‐seq data analysis method to improve analysis performance. Iet Nanobiotechnology, 17(3), 246–256. https://doi.org/10.1049/nbt2.12115.
+
+- McCarthy DJ, Campbell KR, Lun ATL, Willis QF (2017). "Scater: pre-processing, quality control, normalisation and visualisation of single-cell RNA-seq data in R." _Bioinformatics_, *33*, 1179-1186.          doi:10.1093/bioinformatics/btw777 https://doi.org/10.1093/bioinformatics/btw777.
+
+- OpenAI. (2025). ChatGPT. ChatGPT 5; OpenAI. https://chatgpt.com/.
+
+- R Core Team (2025). _R: A Language and Environment for Statistical Computing_. R Foundation for Statistical Computing, Vienna, Austria. https://www.R-project.org/.
+
+- Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. ISBN 978-3-319-24277-4, https://ggplot2.tidyverse.org.
+
+- Ziebell F (2024). _RNAseqQC: Quality Control for RNA-Seq Data_. doi:10.32614/CRAN.package.RNAseqQC https://doi.org/10.32614/CRAN.package.RNAseqQC, Rpackage version 0.2.1,                                    https://CRAN.R-project.org/package=RNAseqQC.
+
+```{r}
+sessionInfo()
+```
