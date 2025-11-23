@@ -31,7 +31,7 @@ gene expression analysis). Unlike some existing packages which only
 output metrics independently such as RNAseqQC (Ziebell, 2024), Seurat
 (Hao et al., 2023), or scater (McCarthy et al., 2017), QCseq
 systematically provides a unified score to reflect overall sample
-integrity. The `QCseq` package was developed using
+integrity, a novel advancement. The `QCseq` package was developed using
 `R version 4.5.1 (2025-06-13)`,
 `Platform: aarch64-apple-darwin20 (64-bit)` and
 `Running under: macOS Sequoia 15.6.1`.
@@ -76,8 +76,8 @@ To run the Shiny app:
 
 5.  ***QCpca*** for a plot of principal components analysis (PCA)
     applied to numeric QC features to reduce the data to 2 main
-    dimensions (PC1 and PC2), which capture the greatest sources of
-    variation among the cells.
+    dimensions (PCx and PCy), with the defaults being PC1 and PC2 which
+    capture the greatest sources of variation among the cells.
 
 The package also contains one scRNA sequencing dataset, called
 sample\_scRNAseq. Refer to package vignettes for more details. An
@@ -131,7 +131,7 @@ intelligence tools were used for the development of this function.
 
 The *QCpca* function performs a principal component analysis (PCA) on
 key scRNAseq QC metrics. The PCA reduces the data to 2 main dimensions
-(PCx and PCy). Defaults is PC1 and PC2 which capture the greatest
+(PCx and PCy). Defaults are PC1 and PC2 which capture the greatest
 sources of variation among the cells. The function returns a `ggplot2`
 (Wickham, 2016) gplot PCA scatter plot labeled by QC rank score.
 Furthermore, the *QCpca* function makes use of the prcomp function from

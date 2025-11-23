@@ -13,7 +13,7 @@ output: md_document
 
 For background, scRNAseq gene expression data lets you quantify the level of expression of different genes for individual cells. This is very useful for researchers as the pattern of gene expression can be used as a “fingerprint” of the state of a sample during the time of measurement. Details about which genes are relevant to the fingerprint (this is referred to as genes that are “differentially expressed”) can give researchers insight into a particular condition of interest or even biomarkers (Andrews & Hemberg, 2018).
 
-As of right now, researchers must manually examine multiple independent QC metrics such as the number of detected genes, total transcriptions, and mitochondrial RNA percentage to assess sample quality, a time-consuming and subjective task. QCseq addresses this by integrating multiple QC metrics into a single, robust QC score ranging from 0 to 100. This unified score provides a more objective and reproducible measure of data quality, allowing researchers to quickly identify low-quality samples prior to any downstream analyses (e.g. differential gene expression analysis). Unlike some existing packages which only output metrics independently such as RNAseqQC (Ziebell, 2024), Seurat (Hao et al., 2023), or scater (McCarthy et al., 2017), QCseq systematically provides a unified score to reflect overall sample integrity. The `QCseq` package was developed using `R version 4.5.1 (2025-06-13)`, `Platform: aarch64-apple-darwin20 (64-bit)` and `Running under: macOS Sequoia 15.6.1`.
+As of right now, researchers must manually examine multiple independent QC metrics such as the number of detected genes, total transcriptions, and mitochondrial RNA percentage to assess sample quality, a time-consuming and subjective task. QCseq addresses this by integrating multiple QC metrics into a single, robust QC score ranging from 0 to 100. This unified score provides a more objective and reproducible measure of data quality, allowing researchers to quickly identify low-quality samples prior to any downstream analyses (e.g. differential gene expression analysis). Unlike some existing packages which only output metrics independently such as RNAseqQC (Ziebell, 2024), Seurat (Hao et al., 2023), or scater (McCarthy et al., 2017), QCseq systematically provides a unified score to reflect overall sample integrity, a novel advancement. The `QCseq` package was developed using `R version 4.5.1 (2025-06-13)`, `Platform: aarch64-apple-darwin20 (64-bit)` and `Running under: macOS Sequoia 15.6.1`.
 
 ## Installation
 
@@ -50,7 +50,7 @@ browseVignettes("QCseq")
 
 4.  ***QChistogram*** for a publication-level histogram where x-axis is quality control score (from QCscore function) and y-axis is frequency.
 
-5.  ***QCpca*** for a plot of principal components analysis (PCA) applied to numeric QC features to reduce the data to 2 main dimensions (PC1 and PC2), which capture the greatest sources of variation among the cells.
+5.  ***QCpca*** for a plot of principal components analysis (PCA) applied to numeric QC features to reduce the data to 2 main dimensions (PCx and PCy), with the defaults being PC1 and PC2 which capture the greatest sources of variation among the cells.
 
 The package also contains one scRNA sequencing dataset, called sample_scRNAseq. Refer to package vignettes for more details. An overview of the package is illustrated below.
 
@@ -68,7 +68,7 @@ The author wrote the *QCsummary* function, which returns a clear summary report 
 
 The *QChistogram* function returns a publication-level histogram of QC signature scores for all inputted samples in the assay matrix. The *QChistogram* function makes use of the ggplot function from the `ggplot2` (Wickham, 2016) package to plot the histogram. No artificial intelligence tools were used for the development of this function.
 
-The *QCpca* function performs a principal component analysis (PCA) on key scRNAseq QC metrics. The PCA reduces the data to 2 main dimensions (PCx and PCy). Defaults is PC1 and PC2 which capture the greatest sources of variation among the cells. The function returns a `ggplot2` (Wickham, 2016) gplot PCA scatter plot labeled by QC rank score. Furthermore, the *QCpca* function makes use of the prcomp function from the `stats` package.
+The *QCpca* function performs a principal component analysis (PCA) on key scRNAseq QC metrics. The PCA reduces the data to 2 main dimensions (PCx and PCy). Defaults are PC1 and PC2 which capture the greatest sources of variation among the cells. The function returns a `ggplot2` (Wickham, 2016) gplot PCA scatter plot labeled by QC rank score. Furthermore, the *QCpca* function makes use of the prcomp function from the `stats` package.
 
 ## References
 
