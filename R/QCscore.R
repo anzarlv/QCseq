@@ -1,3 +1,9 @@
+# Purpose: Script for QCscore function of QCseq package
+# Author: Anzar Alvi
+# Date: November 27th, 2025
+# Version: 0.1.0
+# Bugs and Issues: NA
+
 #' Computing unified quality control score
 #'
 #' Computes a unified quality control score from 3 independent QC metrics
@@ -42,7 +48,7 @@ QCscore <- function(expr_matrix) {
   # Keep QC metrics of interest
   qc_sub <- qc_df[, c("n_genes", "n_transcripts", "percent_mit")]
 
-  # Standardize QC metrics and svae in df_scaled dataframe
+  # Standardize QC metrics and save in df_scaled dataframe
   # Positive for n_genes & n_transcripts
   # Negative for percent_mit
   df_scaled <- data.frame(
@@ -72,7 +78,8 @@ QCscore <- function(expr_matrix) {
 # Bacher et al.'s (2021) research team inspired me to use MAD standardization
 #' @noRd
 robust_scale <- function(x) {
-  CONSTANT = 1.4826
+  CONSTANT_ONE = 1.4826
+  CONSTANT_TWO = 1.349
   m   <- median(x, na.rm = TRUE)
   mad <- mad(x, constant = CONSTANT, na.rm = TRUE)
   # 1.4826 is the constant for
@@ -81,7 +88,9 @@ robust_scale <- function(x) {
   if (!is.finite(mad) || mad == 0) {
     iq <- IQR(x, na.rm = TRUE)
     if (!is.finite(iq) || iq == 0) return(scale(x))
-    return((x - m) / (iq / 1.349)) # used for scaling
+    return((x - m) / (iq / CONSTANT_TWO)) # used for scaling
   }
   (x - m) / mad
 }
+
+# [END]

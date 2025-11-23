@@ -1,3 +1,9 @@
+# Purpose: Script for QChistogram function of QCseq package
+# Author: Anzar Alvi
+# Date: November 27th, 2025
+# Version: 0.1.0
+# Bugs and Issues: NA
+
 #' Returns a histogram of quality control scores across all samples.
 #'
 #' Returns a publication-level histogram where x-axis is quality control score
@@ -57,3 +63,5 @@ QChistogram <- function(expr_matrix, bar_colour = "#4C72B0") {
     )
   return(p)
 }
+
+# [END]

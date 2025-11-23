@@ -1,3 +1,9 @@
+# Purpose: Script for QCsummary function of QCseq package
+# Author: Anzar Alvi
+# Date: November 27th, 2025
+# Version: 0.1.0
+# Bugs and Issues: NA
+
 #' Return a clear summary report for the gene expression data.
 #'
 #' Returns a clear summary report for the gene expression data using the key
@@ -65,3 +71,5 @@ QCsummary <- function(expr_matrix,
 
   return(summary_text)
 }
+
+# [END]

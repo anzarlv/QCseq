@@ -1,3 +1,9 @@
+# Purpose: Script for QCpca function of QCseq package
+# Author: Anzar Alvi
+# Date: November 27th, 2025
+# Version: 0.1.0
+# Bugs and Issues: NA
+
 #' PCA plot labeled by QC score
 #'
 #' The function performs a principal component analysis (PCA) on key scRNAseq
@@ -73,3 +79,5 @@ QCpca <- function(expr_matrix, pc_x = 1, pc_y = 2) {
     )
   return(p)
 }
+
+# [END]

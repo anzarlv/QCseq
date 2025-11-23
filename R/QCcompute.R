@@ -1,3 +1,9 @@
+# Purpose: Script for QCcompute function of QCseq package
+# Author: Anzar Alvi
+# Date: November 27th, 2025
+# Version: 0.1.0
+# Bugs and Issues: NA
+
 #' Computing independent quality control metrics
 #'
 #' Computes the following quality control metrics from a scRNA-seq gene
@@ -40,16 +46,33 @@
 #' @import Seurat
 
 QCcompute <- function(expr_matrix) {
-  # Properly extract the expression matrix
-  # Seurat (Hao et al., 2023) package is used
+  # Defensive coding below
+  # Input must be a Seurat object with an RNA assay and a counts layer
+  if (!inherits(expr_matrix, "Seurat")) {
+    stop("`expr_matrix` must be a Seurat object (e.g., like `sample_scRNAseq`).")
+  }
+
+  if (!"RNA" %in% Seurat::Assays(expr_matrix)) {
+    stop("Seurat object must contain an 'RNA' assay.")
+  }
+
+  # This assumes the RNA assay has a 'counts' layer; if not, this will error.
   main_df <- Seurat::GetAssayData(expr_matrix, assay = "RNA", layer = "counts")
+
+  if (!is.matrix(main_df) && !"dgCMatrix" %in% class(main_df)) {
+    stop("Extracted RNA counts must be a matrix-like object ",
+         "with genes in rows and cells in columns.")
+  }
+
+  if (anyNA(main_df)) {
+    stop("Expression matrix must not contain NA values; use 0 for undetected genes.")
+  }
 
   # Switch to data frame format
   main_df <- data.frame(main_df)
 
   # Lu et al.'s (2023) reserach teams helped decide what QC metrics to
   # extract
-
   # Count number of total detected genes per cell (only non-zero counts)
   n_genes <- colSums(main_df > 0)
 
@@ -94,3 +117,6 @@ get_gene_percentage <- function(expr_matrix, pattern, total_counts) {
   }
   return(percent)
 }
+
+# [END]
+
