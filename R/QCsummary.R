@@ -1,13 +1,16 @@
 #' Return a clear summary report for the gene expression data.
 #'
 #' Returns a clear summary report for the gene expression data using the key
-#' quality control metrics (nGenes, nTranscripts, percent_mit, and percent_ribo)
+#' quality control metrics (n_genes, n_transcripts, percent_mit, and percent_ribo)
 #' and the signature QC score that combines the metrics.
 #'
 #' @param expr_matrix A Seurat object, RNA assay, gene expression matrix
 #' where columns are cells and rows are genes.
-#' @param threshold Tpye numeric, sets the QC score threshold for what is an
-#' acceptable score. Deafult = 0.5.
+#' @param lower_threshold Type numeric, default = 0.4. If the mean of all QC
+#' scores is below this value, the dataset quality is poor.
+#' @param upper_threshold Type numeric, default = 0.75. If the mean of all QC
+#' scores is above this value, the dataset quality is good. If the mean of all
+#' QC scores is between 0.4 and 0.75, the dataset quality is moderate.
 #'
 #' @return Returns text (type character). It is a clear quality control summary
 #' report specific to the quality control metrics extracted form the scRNAseq
@@ -28,7 +31,9 @@
 #'
 #' @export
 
-QCsummary <- function(expr_matrix, threshold = 0.5) {
+QCsummary <- function(expr_matrix,
+                      lower_threshold = 0.4,
+                      upper_threshold = 0.75) {
   # Compute numeric QC metrics using QCscore function
   df <- QCseq::QCscore(expr_matrix)
   qc_features <- df[, sapply(df, is.numeric), drop = FALSE]
@@ -36,10 +41,6 @@ QCsummary <- function(expr_matrix, threshold = 0.5) {
   # Calculate mean and standard deviation for each numeric QC metric
   qc_means <- colMeans(qc_features, na.rm = TRUE)
   qc_sds <- apply(qc_features, 2, sd, na.rm = TRUE)
-
-  # Determine proportion (%) of cells below the quality threshold
-  prop_low <- mean(df$qc_score_rank < threshold, na.rm = TRUE)
-  pct_low <- round(prop_low * 100, 1)
 
   # Get names for all QC metrics for readable output
   metric_names <- names(qc_means)
@@ -55,20 +56,15 @@ QCsummary <- function(expr_matrix, threshold = 0.5) {
   # I used my own judgement to determine that a QC score > 0.6 is "generally
   # good", a QC score between 0.4 and 0.5 is "moderate", and a QC score below
   # 0.4 is "poor".
-  summary_text <- paste0(
-    "Quality control summary: Across ", nrow(df), " cells, the mean QC rank
-    score was ", round(mean(df$qc_score_rank, na.rm = TRUE), 3),
-    " (SD = ", round(sd(df$qc_score_rank, na.rm = TRUE), 3), "). ",
-    "Key QC metrics include ", metric_text, ". ",
-    "Approximately ", pct_low, "% of cells had a QC rank score below ",
-    threshold, ", suggesting they may represent low-quality or damaged cells
-    that should be considered for filtering. ", "Overall, these results indicate
-    that the dataset has a ", ifelse(mean(df$qc_score_rank, na.rm = TRUE) > 0.6,
-                                     "generally good",
-                                     ifelse(mean(df$qc_score_rank, na.rm = TRUE)
-                                            > 0.4, "moderate", "poor")),
-    " quality profile."
-  )
+  summary_text <- paste0("Quality control summary: Across ", nrow(df),
+                         " cells, the mean QC rank score was ",
+                         round(mean(df$qc_score_rank, na.rm = TRUE), 3),
+                         " (SD = ", round(sd(df$qc_score_rank, na.rm = TRUE), 3), "). ",
+                         "Key QC metrics include ", metric_text, ". ",
+                         "Overall, these results indicate that the dataset has a ",
+                         ifelse(mean(df$qc_score_rank, na.rm = TRUE) > upper_threshold, "good",
+                                ifelse(mean(df$qc_score_rank, na.rm = TRUE) > lower_threshold,
+                                       "moderate", "poor")), " quality profile.")
 
   return(summary_text)
 }

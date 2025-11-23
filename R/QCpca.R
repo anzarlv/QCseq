@@ -1,13 +1,17 @@
 #' PCA plot labeled by QC score
 #'
 #' The function performs a principal component analysis (PCA) on key scRNAseq
-#' QC metrics including nGenes, nTranscripts, percent_mit, and percent_ribo.
+#' QC metrics including n_genes, n_transcripts, percent_mit, and percent_ribo.
 #' PCA is then applied to numeric QC features to reduce the data to 2 main
-#' dimensions (PC1 and PC2), which capture the greatest sources of variation
-#' among the cells.
+#' dimensions (PCx and PCy), specified by the users. PC1 and PC2 are default,
+#' which capture the greatest sources of variation among the cells.
 #'
 #' @param expr_matrix A Seurat object, RNA assay, gene expression matrix
 #' where columns are cells and rows are genes.
+#' @param pc_x Integer specifying which principal component to use on the
+#' x-axis (default is 1, i.e., PC1).
+#' @param pc_y Integer specifying which principal component to use on the
+#' y-axis (default is 2, i.e., PC2).
 #'
 #' @return Returns ggplot PCA scatter plot labeled by QC rank score.
 #'
@@ -15,6 +19,7 @@
 #' # Using sample_scRNAseq dataset available with the package
 #' data("sample_scRNAseq") # Access sample data
 #' QCpca(sample_scRNAseq) # Output PCA plot based on QC scores
+#' QCpca(sample_scRNAseq, pc_x = 2, pc_y = 3) # Use PC2 vs PC3
 #'
 #' @references
 #' R Core Team (2025). _R: A Language and Environment for Statistical
@@ -30,7 +35,7 @@
 #'
 #' @export
 
-QCpca <- function(expr_matrix) {
+QCpca <- function(expr_matrix, pc_x = 1, pc_y = 2) {
 
   df <- QCseq::QCscore(expr_matrix)
 
@@ -42,22 +47,24 @@ QCpca <- function(expr_matrix) {
   pca_res <- prcomp(qc_features, scale. = TRUE)
 
   # Prepare data frame for plotting
-  pca_df <- as.data.frame(pca_res$x[, 1:2]) # We want PCA1 and PCA2
+  # We want 2 PC's (default PC1 and PC2, but user can change it)
+  pca_df <- as.data.frame(pca_res$x[, c(pc_x, pc_y), drop = FALSE])
+  colnames(pca_df) <- c("PCx", "PCy")
   pca_df$qc_score_rank <- df$qc_score_rank
 
   # Variance explained (for axis labels)
-  var_explained <- round(summary(pca_res)$importance[2, 1:2] * 100, 1)
+  var_explained <- round(summary(pca_res)$importance[2, c(pc_x, pc_y)] * 100, 1)
 
   # PCA plot colored by QC rank score
   # We use ggplot2 (Wickham, 2016) package here
-  p <- ggplot2::ggplot(pca_df, aes(x = .data$PC1, y = .data$PC2, color = .data$qc_score_rank)) +
+  p <- ggplot2::ggplot(pca_df, aes(x = .data$PCx, y = .data$PCy, color = .data$qc_score_rank)) +
     geom_point(alpha = 0.8, size = 1.8) +
     scale_color_viridis_c(option = "plasma") +
     theme_minimal(base_size = 14) +
     labs(
       title = "PCA of QC Metrics (colored by QC Rank Score)",
-      x = paste0("PC1 (", var_explained[1], "% variance)"),
-      y = paste0("PC2 (", var_explained[2], "% variance)"),
+      x = paste0("PC", pc_x, " (", var_explained[1], "% variance)"),
+      y = paste0("PC", pc_y, " (", var_explained[2], "% variance)"),
       color = "QC Rank Score"
     ) +
     theme(

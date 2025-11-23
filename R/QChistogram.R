@@ -28,7 +28,7 @@
 #' @import ggplot2
 #' @export
 
-QChistogram <- function(expr_matrix, bar_color = "#4C72B0") {
+QChistogram <- function(expr_matrix, bar_colour = "#4C72B0") {
   main_df <- QCseq::QCscore(expr_matrix)
 
   # Generate histogram of QC scores
@@ -36,7 +36,7 @@ QChistogram <- function(expr_matrix, bar_color = "#4C72B0") {
   p <- ggplot2::ggplot(main_df, aes(x = .data$qc_score_rank)) +
     geom_histogram(
       bins = 50,
-      fill = bar_color,
+      fill = bar_colour,
       color = "black",
       alpha = 0.9
     ) +

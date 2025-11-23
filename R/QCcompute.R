@@ -9,7 +9,7 @@
 #' where columns are cells and rows are genes.
 #'
 #' @return Returns a dataframe where rows are Cells, and columns are:
-#' number of genes (nGenes), number of transcripts (nTranscripts),
+#' number of genes (n_genes), number of transcripts (n_transcripts),
 #' percentage of mitochondrial genes (percent_mit), and percentage of ribosomal
 #' genes (percent_ribo).
 #'
@@ -40,18 +40,6 @@
 #' @import Seurat
 
 QCcompute <- function(expr_matrix) {
-  # Internal helper function
-  # ChatGPT (OpenAI, 2025) helped with setting up this helper
-  get_gene_percentage <- function(expr_matrix, pattern, total_counts) {
-    genes <- grep(pattern, rownames(expr_matrix), value = TRUE)
-    if (length(genes) > 0) {
-      gene_counts <- colSums(expr_matrix[genes, , drop = FALSE])
-      percent <- gene_counts / total_counts * 100
-    } else {
-      percent <- rep(NA, ncol(expr_matrix))
-    }
-    return(percent)
-  }
   # Properly extract the expression matrix
   # Seurat (Hao et al., 2023) package is used
   main_df <- Seurat::GetAssayData(expr_matrix, assay = "RNA", layer = "counts")
@@ -63,24 +51,24 @@ QCcompute <- function(expr_matrix) {
   # extract
 
   # Count number of total detected genes per cell (only non-zero counts)
-  nGenes <- colSums(main_df > 0)
+  n_genes <- colSums(main_df > 0)
 
   # Count total number of transcripts per cell (unique molecular identifiers)
-  nTranscripts <- colSums(main_df)
+  n_transcripts <- colSums(main_df)
 
   # Calculate mitochondrial genes percentage
-  percent_mit <- get_gene_percentage(main_df, "^MT-", nTranscripts)
+  percent_mit <- get_gene_percentage(main_df, "^MT-", n_transcripts)
 
   # Calculate ribosomal genes percentage
   # RPL: large subunit of ribosome
   # RPS: small subunit of ribosome
-  percent_ribo <- get_gene_percentage(main_df, "^RPL|^RPS", nTranscripts)
+  percent_ribo <- get_gene_percentage(main_df, "^RPL|^RPS", n_transcripts)
 
   # Create final dataframe that will be returned
   final_qc_df <- data.frame(
     Cell = colnames(main_df),
-    nGenes = nGenes,
-    nTranscipts = nTranscripts,
+    n_genes = n_genes,
+    n_transcripts = n_transcripts,
     percent_mit = percent_mit,
     percent_ribo = percent_ribo,
     stringsAsFactors = FALSE
@@ -91,4 +79,18 @@ QCcompute <- function(expr_matrix) {
 
   # Return final output
   return(final_qc_df)
+}
+
+# Internal helper function
+# ChatGPT (OpenAI, 2025) helped with setting up this helper
+#' @noRd
+get_gene_percentage <- function(expr_matrix, pattern, total_counts) {
+  genes <- grep(pattern, rownames(expr_matrix), value = TRUE)
+  if (length(genes) > 0) {
+    gene_counts <- colSums(expr_matrix[genes, , drop = FALSE])
+    percent <- gene_counts / total_counts * 100
+  } else {
+    percent <- rep(NA, ncol(expr_matrix))
+  }
+  return(percent)
 }
