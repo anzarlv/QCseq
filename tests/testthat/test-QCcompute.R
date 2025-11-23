@@ -8,13 +8,13 @@ test_that("QCcompute runs correctly on example data", {
   # Basic checks on output
   testthat::expect_s3_class(qc_results, "data.frame")
   testthat::expect_true(nrow(qc_results) > 0)
-  testthat::expect_true(all(c("Cell", "nGenes", "nTranscipts",
+  testthat::expect_true(all(c("Cell", "n_genes", "n_transcripts",
                               "percent_mit", "percent_ribo") %in%
                               colnames(qc_results)))
 
   # Values should be numeric and non-negative
-  testthat::expect_true(all(qc_results$nGenes >= 0))
-  testthat::expect_true(all(qc_results$nTranscipts >= 0))
+  testthat::expect_true(all(qc_results$n_genes >= 0))
+  testthat::expect_true(all(qc_results$n_transcripts >= 0))
   testthat::expect_true(all(qc_results$percent_mit >= 0, na.rm = TRUE))
   testthat::expect_true(all(qc_results$percent_ribo >= 0, na.rm = TRUE))
 })

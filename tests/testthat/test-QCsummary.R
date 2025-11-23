@@ -10,15 +10,14 @@ test_that("QCsummary runs correctly and returns a character summary", {
   testthat::expect_length(qc_summary, 1)
 
   # Should mention all key QC metrics
-  expected_terms <- c("nGenes", "nTranscipts", "percent_mit",
+  expected_terms <- c("n_genes", "n_transcripts", "percent_mit",
                       "percent_ribo", "qc_score_rank")
   for (term in expected_terms) {
     testthat::expect_true(any(grepl(term, qc_summary)),
                           info = paste("Missing metric:", term))
   }
 
-  # Should include percentage and quality label
-  testthat::expect_true(grepl("% of cells", qc_summary))
+  # Should include quality label
   testthat::expect_true(grepl("quality profile", qc_summary))
 })
 
@@ -26,19 +25,24 @@ test_that("QCsummary runs correctly and returns a character summary", {
 test_that("QCsummary reflects changes in threshold", {
   data("sample_scRNAseq")
 
-  text_low_thresh  <- QCsummary(sample_scRNAseq, threshold = 0.2)
-  text_high_thresh <- QCsummary(sample_scRNAseq, threshold = 0.8)
+  # Use extreme thresholds so the quality label is very likely to change
+  text_low_thresh  <- QCsummary(sample_scRNAseq,
+                                lower_threshold = 0,
+                                upper_threshold = 0)
+  text_high_thresh <- QCsummary(sample_scRNAseq,
+                                lower_threshold = 1,
+                                upper_threshold = 1)
 
-  # The reported percentage of low-quality cells should differ
-  percent_pattern <- "(\\d+\\.?\\d*)% of cells"
-  pct_low  <- as.numeric(sub(percent_pattern, "\\1", regmatches(text_low_thresh,
-                                                                regexpr(percent_pattern, text_low_thresh))))
-  pct_high <- as.numeric(sub(percent_pattern, "\\1", regmatches(text_high_thresh,
-                                                                regexpr(percent_pattern, text_high_thresh))))
+  # Extract quality labels from the sentence
+  pattern <- "dataset has a ([a-z]+) quality profile"
+  label_low  <- sub(pattern, "\\1", regmatches(text_low_thresh,
+                                               regexpr(pattern, text_low_thresh)))
+  label_high <- sub(pattern, "\\1", regmatches(text_high_thresh,
+                                               regexpr(pattern, text_high_thresh)))
 
-  testthat::expect_true(is.finite(pct_low))
-  testthat::expect_true(is.finite(pct_high))
-  testthat::expect_true(pct_high != pct_low)
+  testthat::expect_true(label_low %in% c("good", "moderate", "poor"))
+  testthat::expect_true(label_high %in% c("good", "moderate", "poor"))
+  testthat::expect_true(label_low != label_high)
 })
 
 test_that("QCsummary handles invalid input", {
@@ -49,4 +53,3 @@ test_that("QCsummary handles invalid input", {
 })
 
 # [END]
-
