@@ -117,11 +117,11 @@ the template.
 
 The author wrote the *QCsummary* function, which returns a clear summary
 report for the gene expression data using the key quality control
-metrics (nGenes, nTranscripts, percent\_mit, and percent\_ribo) and the
-signature QC score that combines the metrics. The *QCsummary* function
-makes use of the `stats` (R Core Team, 2025) package to derive insights
-(such as sd) from the metrics. No artificial intelligence tools were
-used for the development of this function.
+metrics (n\_genes, n\_transcripts, percent\_mit, and percent\_ribo) and
+the signature QC score that combines the metrics. The *QCsummary*
+function makes use of the `stats` (R Core Team, 2025) package to derive
+insights (such as sd) from the metrics. No artificial intelligence tools
+were used for the development of this function.
 
 The *QChistogram* function returns a publication-level histogram of QC
 signature scores for all inputted samples in the assay matrix. The
