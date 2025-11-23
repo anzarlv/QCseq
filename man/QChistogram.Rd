@@ -4,7 +4,7 @@
 \alias{QChistogram}
 \title{Returns a histogram of quality control scores across all samples.}
 \usage{
-QChistogram(expr_matrix, bar_color = "#4C72B0")
+QChistogram(expr_matrix, bar_colour = "#4C72B0")
 }
 \arguments{
 \item{expr_matrix}{A Seurat object, RNA assay, gene expression matrix

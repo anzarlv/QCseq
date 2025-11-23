@@ -5,8 +5,16 @@
 \alias{sample_scRNAseq}
 \title{Single-cell RNA sequencing (scRNAseq) gene counts}
 \format{
-A Seurat object with 13,714 features (genes) across 2,700 samples
-(cells) within 1 assay
+A \code{Seurat} object containing 13,714 genes and 2,700 cells with:
+\itemize{
+\item One active assay named \code{"RNA"}.
+\item Within the \code{"RNA"} assay, a single \code{"counts"} layer storing a
+sparse matrix of raw UMI counts with genes in rows and cells in columns
+(13,714 x 2,700).
+}
+
+Each row of the counts matrix corresponds to a gene, and each column
+corresponds to a single cell.
 }
 \source{
 10x Genomics
@@ -17,7 +25,7 @@ sample_scRNAseq
 \description{
 A dataset of Peripheral Blood Mononuclear Cells (PBMC) freely available from
 10X Genomics. There are 2,700 single cells that were sequenced on the
-Illumina NextSeq 500
+Illumina NextSeq 500.
 }
 \examples{
 \dontrun{

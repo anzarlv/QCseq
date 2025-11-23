@@ -81,7 +81,7 @@ robust_scale <- function(x) {
   CONSTANT_ONE = 1.4826
   CONSTANT_TWO = 1.349
   m   <- median(x, na.rm = TRUE)
-  mad <- mad(x, constant = CONSTANT, na.rm = TRUE)
+  mad <- mad(x, constant = CONSTANT_ONE, na.rm = TRUE)
   # 1.4826 is the constant for
   # the mad function
   # (R documentation)
