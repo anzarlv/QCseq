@@ -12,13 +12,13 @@ where columns are cells and rows are genes.}
 }
 \value{
 Returns a dataframe where rows are Cells, and columns are:
-number of genes (nGenes), number of transcripts (nTranscripts),
+number of genes (n_genes), number of transcripts (n_transcripts),
 percentage of mitochondrial genes (percent_mit), percentage of ribosomal
 genes (percent_ribo), and unified QC score (qc_score_rank).
 }
 \description{
 Computes a unified quality control score from 3 independent QC metrics
-(nGenes, nTranscripts, and percent_mit) using median absolute deviation (MAD)
+(n_genes, n_transcripts, and percent_mit) using median absolute deviation (MAD)
 standardization and rank-based scores.
 }
 \examples{

@@ -4,26 +4,33 @@
 \alias{QCpca}
 \title{PCA plot labeled by QC score}
 \usage{
-QCpca(expr_matrix)
+QCpca(expr_matrix, pc_x = 1, pc_y = 2)
 }
 \arguments{
 \item{expr_matrix}{A Seurat object, RNA assay, gene expression matrix
 where columns are cells and rows are genes.}
+
+\item{pc_x}{Integer specifying which principal component to use on the
+x-axis (default is 1, i.e., PC1).}
+
+\item{pc_y}{Integer specifying which principal component to use on the
+y-axis (default is 2, i.e., PC2).}
 }
 \value{
 Returns ggplot PCA scatter plot labeled by QC rank score.
 }
 \description{
 The function performs a principal component analysis (PCA) on key scRNAseq
-QC metrics including nGenes, nTranscripts, percent_mit, and percent_ribo.
+QC metrics including n_genes, n_transcripts, percent_mit, and percent_ribo.
 PCA is then applied to numeric QC features to reduce the data to 2 main
-dimensions (PC1 and PC2), which capture the greatest sources of variation
-among the cells.
+dimensions (PCx and PCy), specified by the users. PC1 and PC2 are default,
+which capture the greatest sources of variation among the cells.
 }
 \examples{
 # Using sample_scRNAseq dataset available with the package
 data("sample_scRNAseq") # Access sample data
 QCpca(sample_scRNAseq) # Output PCA plot based on QC scores
+QCpca(sample_scRNAseq, pc_x = 2, pc_y = 3) # Use PC2 vs PC3
 
 }
 \references{

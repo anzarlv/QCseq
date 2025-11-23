@@ -4,14 +4,18 @@
 \alias{QCsummary}
 \title{Return a clear summary report for the gene expression data.}
 \usage{
-QCsummary(expr_matrix, threshold = 0.5)
+QCsummary(expr_matrix, lower_threshold = 0.4, upper_threshold = 0.75)
 }
 \arguments{
 \item{expr_matrix}{A Seurat object, RNA assay, gene expression matrix
 where columns are cells and rows are genes.}
 
-\item{threshold}{Tpye numeric, sets the QC score threshold for what is an
-acceptable score. Deafult = 0.5.}
+\item{lower_threshold}{Type numeric, default = 0.4. If the mean of all QC
+scores is below this value, the dataset quality is poor.}
+
+\item{upper_threshold}{Type numeric, default = 0.75. If the mean of all QC
+scores is above this value, the dataset quality is good. If the mean of all
+QC scores is between 0.4 and 0.75, the dataset quality is moderate.}
 }
 \value{
 Returns text (type character). It is a clear quality control summary
@@ -20,7 +24,7 @@ gene expression matrix.
 }
 \description{
 Returns a clear summary report for the gene expression data using the key
-quality control metrics (nGenes, nTranscripts, percent_mit, and percent_ribo)
+quality control metrics (n_genes, n_transcripts, percent_mit, and percent_ribo)
 and the signature QC score that combines the metrics.
 }
 \examples{

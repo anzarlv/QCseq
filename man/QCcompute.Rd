@@ -12,7 +12,7 @@ where columns are cells and rows are genes.}
 }
 \value{
 Returns a dataframe where rows are Cells, and columns are:
-number of genes (nGenes), number of transcripts (nTranscripts),
+number of genes (n_genes), number of transcripts (n_transcripts),
 percentage of mitochondrial genes (percent_mit), and percentage of ribosomal
 genes (percent_ribo).
 }

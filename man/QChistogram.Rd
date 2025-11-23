@@ -4,18 +4,21 @@
 \alias{QChistogram}
 \title{Returns a histogram of quality control scores across all samples.}
 \usage{
-QChistogram(expr_matrix)
+QChistogram(expr_matrix, bar_color = "#4C72B0")
 }
 \arguments{
 \item{expr_matrix}{A Seurat object, RNA assay, gene expression matrix
 where columns are cells and rows are genes.}
+
+\item{bar_colour}{Hex code for colour to allow users to customize the colour
+of the bars in the histogram, default is #4C72B0 (light blue)}
 }
 \value{
 Returns ggplot histogram plot.
 }
 \description{
 Returns a publication-level histogram where x-axis is quality control score
-(from QCscore function) and y-axis is frequency.
+(from QCscore function) and y-axis is frequency. Users can customize colour.
 }
 \examples{
 # Using sample_scRNAseq dataset available with the package
