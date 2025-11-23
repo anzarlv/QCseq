@@ -1,10 +1,13 @@
 #' Returns a histogram of quality control scores across all samples.
 #'
 #' Returns a publication-level histogram where x-axis is quality control score
-#' (from QCscore function) and y-axis is frequency.
+#' (from QCscore function) and y-axis is frequency. Users can customize colour.
 #'
 #' @param expr_matrix A Seurat object, RNA assay, gene expression matrix
 #' where columns are cells and rows are genes.
+#'
+#' @param bar_colour Hex code for colour to allow users to customize the colour
+#' of the bars in the histogram, default is #4C72B0 (light blue)
 #'
 #' @return Returns ggplot histogram plot.
 #'
@@ -25,7 +28,7 @@
 #' @import ggplot2
 #' @export
 
-QChistogram <- function(expr_matrix) {
+QChistogram <- function(expr_matrix, bar_color = "#4C72B0") {
   main_df <- QCseq::QCscore(expr_matrix)
 
   # Generate histogram of QC scores
@@ -33,7 +36,7 @@ QChistogram <- function(expr_matrix) {
   p <- ggplot2::ggplot(main_df, aes(x = .data$qc_score_rank)) +
     geom_histogram(
       bins = 50,
-      fill = "#4C72B0",
+      fill = bar_color,
       color = "black",
       alpha = 0.9
     ) +
