@@ -53,9 +53,6 @@ QCsummary <- function(expr_matrix,
   )
 
   # Final summary paragraph
-  # I used my own judgement to determine that a QC score > 0.6 is "generally
-  # good", a QC score between 0.4 and 0.5 is "moderate", and a QC score below
-  # 0.4 is "poor".
   summary_text <- paste0("Quality control summary: Across ", nrow(df),
                          " cells, the mean QC rank score was ",
                          round(mean(df$qc_score_rank, na.rm = TRUE), 3),
