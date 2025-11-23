@@ -68,7 +68,7 @@ The author wrote the *QCsummary* function, which returns a clear summary report 
 
 The *QChistogram* function returns a publication-level histogram of QC signature scores for all inputted samples in the assay matrix. The *QChistogram* function makes use of the ggplot function from the `ggplot2` (Wickham, 2016) package to plot the histogram. No artificial intelligence tools were used for the development of this function.
 
-The *QCpca* function performs a principal component analysis (PCA) on key scRNAseq QC metrics. The PCA reduces the data to 2 main dimensions (PC1 and PC2), which capture the greatest sources of variation among the cells. The function returns a `ggplot2` (Wickham, 2016) gplot PCA scatter plot labeled by QC rank score. Furthermore, the *QCpca* function makes use of the prcomp function from the `stats` package.
+The *QCpca* function performs a principal component analysis (PCA) on key scRNAseq QC metrics. The PCA reduces the data to 2 main dimensions (PCx and PCy). Defaults is PC1 and PC2 which capture the greatest sources of variation among the cells. The function returns a `ggplot2` (Wickham, 2016) gplot PCA scatter plot labeled by QC rank score. Furthermore, the *QCpca* function makes use of the prcomp function from the `stats` package.
 
 ## References
 

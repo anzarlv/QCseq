@@ -131,10 +131,11 @@ intelligence tools were used for the development of this function.
 
 The *QCpca* function performs a principal component analysis (PCA) on
 key scRNAseq QC metrics. The PCA reduces the data to 2 main dimensions
-(PC1 and PC2), which capture the greatest sources of variation among the
-cells. The function returns a `ggplot2` (Wickham, 2016) gplot PCA
-scatter plot labeled by QC rank score. Furthermore, the *QCpca* function
-makes use of the prcomp function from the `stats` package.
+(PCx and PCy). Defaults is PC1 and PC2 which capture the greatest
+sources of variation among the cells. The function returns a `ggplot2`
+(Wickham, 2016) gplot PCA scatter plot labeled by QC rank score.
+Furthermore, the *QCpca* function makes use of the prcomp function from
+the `stats` package.
 
 ## References
 
