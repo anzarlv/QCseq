@@ -47,7 +47,7 @@ To install the latest version of the package:
 
 To run the Shiny app:
 
-    # UNDER CONSTRUCTION
+    runQCseq()
 
 ## Overview
 
@@ -149,6 +149,10 @@ and detection rates in single-cell RNA-seq experiments with cDNA library
 equalization. *Nucleic Acids Research*, *50*(2), e12–e12.
 <https://doi.org/10.1093/nar/gkab1071>.
 
+Chang W, Cheng J, Allaire J, Sievert C, Schloerke B, Aden-Buie G, Xie Y,
+Allen J, McPherson J, Dipert A, Borges B (2025). shiny: Web Application
+Framework for R. R package version 1.12.0, <https://shiny.posit.co/>.
+
 Hao, Y., Stuart, T. A., Kowalski, M. H., Choudhary, S., Hoffman, P.,
 Hartman, A., Srivastava, A., Molla, G., Shaista Madad, Fernandez-Granda,
 C., & Rahul atija. (2023). Dictionary learning for integrative,
@@ -171,6 +175,16 @@ OpenAI. (2025). *ChatGPT*. ChatGPT 5; OpenAI. <https://chatgpt.com/>.
 R Core Team (2025). \_R: A Language and Environment for Statistical
 Computing\_. R Foundation for Statistical Computing, Vienna, Austria.
 <https://www.R-project.org/>.
+
+*Shiny - File Upload*. (2014, July 29). Shiny.
+<https://shiny.posit.co/r/gallery/widgets/file-upload/>
+
+*Shiny - Including HTML, text, and Markdown files*. (2014, July 29).
+Shiny.
+<https://shiny.posit.co/r/gallery/application-layout/including-html-text-and-markdown-files/>
+
+*Shiny - Tabsets*. (2014, July 30). Shiny.
+<https://shiny.posit.co/r/gallery/application-layout/tabsets/>
 
 Wickham H (2016). *ggplot2: Elegant Graphics for Data Analysis*.
 Springer-Verlag New York. ISBN 978-3-319-24277-4,
