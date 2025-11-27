@@ -32,7 +32,15 @@ To list all functions available in the package:
 ls("package:QCseq")
 ```
 
+For running the Shiny app:
+
+``` r
+runQCseq()
+```
+
 ## Computing independent quality control metrics
+
+**Function: QCcompute**
 
 The function computes the following quality control metrics from a scRNA-seq gene expression matrix: 1) number of detected genes per cell, 2) total transcripts per cell, 3) percentage of mitochondrial genes, and 4) percentage of ribosomal genes.
 
@@ -51,11 +59,13 @@ percent_ribo <- metrics$percent_ribo
 # Independent metrics can be accessed
 ```
 
-The QCcompute function lets the users compute standard QC metrics (number of genes, number of transcripts, percentage of mitochondrial genes, and percentage of ribosomal genes) usually looked at by individuals who work with scRNA-seq data. This function gives users a good overview of some key metrics of their data which is useful as users can immediately note any major issues and filter accordingly.
+The QCcompute function lets the users compute standard QC metrics (number of genes, number of transcripts, percentage of mitochondrial genes, and percentage of ribosomal genes) usually looked at by individuals who work with scRNA-seq data. This function gives users a good overview of some key metrics of their data which is useful as users can immediately note any major issues and filter accordingly. Overall, the output provide users with a high-level understanding of the quality of their data.
 
 ## Computing unified quality control score
 
-Computes a unified quality control score from 3 independent QC metrics (n_genes, n_transcripts, and percent_mit) using median absolute deviation (MAD) standardization and rank-based scores.
+**Function: QCscore**
+
+Computes a unified quality control score from 3 independent QC metrics (n_genes, n_transcripts, and percent_mit) using median absolute deviation (MAD) standardization (a popular technique done by Bacher et al.'s (2022) team that has done extensive work with scRNAseq data) and rank-based scores.
 
 ```{r}
 metrics_with_score <- QCscore(sample_scRNAseq)
@@ -66,9 +76,11 @@ qc_score_rank <- metrics_with_score$qc_score_rank
 # qc_score_rank can be accessed from the output of QCscore
 ```
 
-The QCscore function is the key function for the package. This function will collect the QC metrics from the QCcompute function, then by MAD standardization and rank-based scores, output a unified QC score for users. This is the key novelty aspect of the package and it is what many researchers would find useful. Having a signature multivariate QC score from multiple independent metrics gives users a powerful quantified value which reflects the quality of their scRNA-seq data and makes data filtering an easier and more seamless process.
+The QCscore function is the key function for the package. This function will collect the QC metrics from the QCcompute function, then by MAD standardization and rank-based scores, output a unified QC score for users. [**This is the key novelty aspect of the package and it is what many researchers would find useful**]{.underline}. Having a signature multivariate QC score from multiple independent metrics gives users a powerful quantified value which reflects the quality of their scRNA-seq data and makes data filtering an easier and more seamless process.
 
 ## Return a clear summary report for the gene expression data
+
+**Function: QCsummary**
 
 Returns a clear summary report for the gene expression data using the key quality control metrics (nGenes, nTranscripts, percent_mit, and percent_ribo) and the signature QC score that combines the metrics.
 
@@ -76,9 +88,11 @@ Returns a clear summary report for the gene expression data using the key qualit
 cat(QCsummary(sample_scRNAseq, lower_threshold = 0.2, upper_threshold = 0.8))
 ```
 
-This function gives users a written representation of the quality of their data. Note how along with inputting the expression matrix, users can specify both a lower and upper threshold for poor and good samples respectively. Users can adjust these values depending on how stringent they want to be with filtering samples.
+This function gives users a written representation of the quality of their data. Note how along with inputting the expression matrix, users can specify both a lower and upper threshold for poor and good samples respectively. Users can adjust these values depending on how stringent they want to be with filtering samples. The output of this function can be used in manuscripts for work related to QC of scRNAseq data.
 
 ## Histogram of QC scores across all samples
+
+**Function: QChistogram**
 
 Returns a publication-level histogram where x-axis is quality control score (from QCscore function) and y-axis is frequency.
 
@@ -92,6 +106,8 @@ This plot gives users a good overview of the samples in their expression matrix.
 
 ## PCA plot labeled by QC score
 
+**Function: QCpca**
+
 The function performs a principal component analysis (PCA) on key scRNAseq QC metrics including n_genes, n_transcripts, percent_mit, and percent_ribo. PCA is then applied to numeric QC features to reduce the data to 2 main dimensions (PCx and PCy), where defaults are PC1 and PC2 which capture the greatest sources of variation among the cells.
 
 ```{r, fig.width=10, fig.height=6, out.width="100%"}
@@ -99,6 +115,8 @@ library(ggplot2)
 plot_pca <- QCpca(sample_scRNAseq, pc_x = 1, pc_y = 2)
 plot_pca
 ```
+
+[How do users interpret this plot?]{.underline}
 
 The PCA plot shows how cells differ based on their QC metrics by reducing several QC features (gene counts, transcript counts, mitochondrial %, ribosomal %) into two major axes of variation. Each point is a cell, positioned according to its QC profile, and colored by its QC rank score. Cells with similar QC properties cluster together, while lower-quality cells typically appear in distinct regions and show darker colors. In the example, high-quality cells form a tight cluster toward the right, while lower-quality cells spread toward the left or lower parts of the plot, making it easy to visually spot QC outliers.
 
@@ -110,7 +128,7 @@ The PCA plot shows how cells differ based on their QC metrics by reducing severa
 
 -   Andrews, T. S., & Hemberg, M. (2018). Identifying cell populations with scRNASeq. Molecular Aspects of Medicine, 59, 114–122. <https://doi.org/10.1016/j.mam.2017.07.002>.
 
--   Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J., Stewart, R., & Kendziorski, C. (2021). Enhancing biological signals and detection rates in single-cell RNA-seq experiments with cDNA library equalization. *Nucleic Acids Research*, *50*(2), e12–e12. <https://doi.org/10.1093/nar/gkab1071>.
+-   Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J., Stewart, R., & Kendziorski, C. (2022). Enhancing biological signals and detection rates in single-cell RNA-seq experiments with cDNA library equalization. *Nucleic Acids Research*, *50*(2), e12–e12. <https://doi.org/10.1093/nar/gkab1071>.
 
 -   Chang W, Cheng J, Allaire J, Sievert C, Schloerke B, Aden-Buie G, Xie Y, Allen J, McPherson J, Dipert A, Borges B (2025). shiny: Web Application Framework for R. R package version 1.12.0, <https://shiny.posit.co/>.
 
