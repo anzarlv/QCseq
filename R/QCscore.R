@@ -26,7 +26,7 @@
 #'
 #' @references
 #' Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J.,
-#' Stewart, R., & Kendziorski, C. (2021). Enhancing biological signals and
+#' Stewart, R., & Kendziorski, C. (2022). Enhancing biological signals and
 #' detection rates in single-cell RNA-seq experiments with cDNA library
 #' equalization. Nucleic Acids Research, 50(2), e12–e12.
 #' https://doi.org/10.1093/nar/gkab1071.
