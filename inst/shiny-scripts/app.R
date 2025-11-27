@@ -281,7 +281,7 @@ head(qc_results)</code></pre>
 
         <li>
           Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J.,
-          Knight, P., Thomson, J., Stewart, R., &amp; Kendziorski, C. (2021).
+          Knight, P., Thomson, J., Stewart, R., &amp; Kendziorski, C. (2022).
           <em>Enhancing biological signals and detection rates in single-cell RNA-seq
           experiments with cDNA library equalization.</em>
           Nucleic Acids Research, 50(2), e12–e12.
