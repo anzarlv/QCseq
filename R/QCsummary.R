@@ -59,15 +59,19 @@ QCsummary <- function(expr_matrix,
   )
 
   # Final summary paragraph
-  summary_text <- paste0("Quality control summary: Across ", nrow(df),
-                         " cells, the mean QC rank score was ",
-                         round(mean(df$qc_score_rank, na.rm = TRUE), 3),
-                         " (SD = ", round(sd(df$qc_score_rank, na.rm = TRUE), 3), "). ",
-                         "Key QC metrics include ", metric_text, ". ",
-                         "Overall, these results indicate that the dataset has a ",
-                         ifelse(mean(df$qc_score_rank, na.rm = TRUE) > upper_threshold, "good",
-                                ifelse(mean(df$qc_score_rank, na.rm = TRUE) > lower_threshold,
-                                       "moderate", "poor")), " quality profile.")
+  summary_text <- paste0(
+    "Quality control summary:\n\n",
+    "Across ", nrow(df),
+    " cells, the mean QC rank score was ",
+    round(mean(df$qc_score_rank, na.rm = TRUE), 3),
+    " (SD = ", round(sd(df$qc_score_rank, na.rm = TRUE), 3), ").\n\n",
+    "Key QC metrics include ", metric_text, ".\n\n",
+    "Overall, these results indicate that the dataset has a ",
+    ifelse(mean(df$qc_score_rank, na.rm = TRUE) > upper_threshold, "good",
+           ifelse(mean(df$qc_score_rank, na.rm = TRUE) > lower_threshold,
+                  "moderate", "poor")),
+    " quality profile.\n"
+  )
 
   return(summary_text)
 }
