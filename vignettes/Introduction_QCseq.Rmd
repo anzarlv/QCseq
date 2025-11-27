@@ -104,27 +104,35 @@ The PCA plot shows how cells differ based on their QC metrics by reducing severa
 
 ## Package reference
 
--   Alvi, A. (2025) QCseq: Quality Control Sequencing. Unpublished. <https://github.com/anzarlv/QCseq>
+-   Alvi, A. (2025) QCseq: Quality Control Sequencing. Unpublished. <https://github.com/anzarlv/QCseq>.
 
 ## References
 
 -   Andrews, T. S., & Hemberg, M. (2018). Identifying cell populations with scRNASeq. Molecular Aspects of Medicine, 59, 114–122. <https://doi.org/10.1016/j.mam.2017.07.002>.
 
--   Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J., Stewart, R., & Kendziorski, C. (2021). Enhancing biological signals and detection rates in single-cell RNA-seq experiments with cDNA library equalization. Nucleic Acids Research, 50(2), e12–e12. <https://doi.org/10.1093/nar/gkab1071>.
+-   Bacher, R., Chu, L.-F., Argus, C., Bolin, J. M., Knight, P., Thomson, J., Stewart, R., & Kendziorski, C. (2021). Enhancing biological signals and detection rates in single-cell RNA-seq experiments with cDNA library equalization. *Nucleic Acids Research*, *50*(2), e12–e12. <https://doi.org/10.1093/nar/gkab1071>.
+
+-   Chang W, Cheng J, Allaire J, Sievert C, Schloerke B, Aden-Buie G, Xie Y, Allen J, McPherson J, Dipert A, Borges B (2025). shiny: Web Application Framework for R. R package version 1.12.0, <https://shiny.posit.co/>.
 
 -   Hao, Y., Stuart, T. A., Kowalski, M. H., Choudhary, S., Hoffman, P., Hartman, A., Srivastava, A., Molla, G., Shaista Madad, Fernandez-Granda, C., & Rahul atija. (2023). Dictionary learning for integrative, multimodal and scalable single-cell analysis. Nature Biotechnology, 42, 293–304. <https://doi.org/10.1038/s41587-023-01767-y>
 
--   Lu, J., Sheng, Y., Qian, W., Pan, M., Zhao, X., & Ge, Q. (2023). scRNA‐seq data analysis method to improve analysis performance. Iet Nanobiotechnology, 17(3), 246–256. <https://doi.org/10.1049/nbt2.12115>.
+-   Lu, J., Sheng, Y., Qian, W., Pan, M., Zhao, X., & Ge, Q. (2023). scRNA‐seq data analysis method to improve analysis performance. *Iet Nanobiotechnology*, *17*(3), 246–256. <https://doi.org/10.1049/nbt2.12115>.
 
--   McCarthy DJ, Campbell KR, Lun ATL, Willis QF (2017). "Scater: pre-processing, quality control, normalisation and visualisation of single-cell RNA-seq data in R." *Bioinformatics*, *33*, 1179-1186. <doi:10.1093/bioinformatics/btw777> <https://doi.org/10.1093/bioinformatics/btw777>.
+-   McCarthy DJ, Campbell KR, Lun ATL, Willis QF (2017). "Scater: pre-processing, quality control, normalisation and visualisation of single-cell RNA-seq data in R." \_Bioinformatics\_, \*33\*, 1179-1186. <doi:10.1093/bioinformatics/btw777> <https://doi.org/10.1093/bioinformatics/btw777>.
 
--   OpenAI. (2025). ChatGPT. ChatGPT 5; OpenAI. <https://chatgpt.com/>.
+-   OpenAI. (2025). *ChatGPT*. ChatGPT 5; OpenAI. <https://chatgpt.com/>.
 
--   R Core Team (2025). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.
+-   R Core Team (2025). \_R: A Language and Environment for Statistical Computing\_. R Foundation for Statistical Computing, Vienna, Austria. <https://www.R-project.org/>.
 
--   Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. ISBN 978-3-319-24277-4, <https://ggplot2.tidyverse.org>.
+-   *Shiny - File Upload*. (2014, July 29). Shiny. <https://shiny.posit.co/r/gallery/widgets/file-upload/>
 
--   Ziebell F (2024). *RNAseqQC: Quality Control for RNA-Seq Data*. <doi:10.32614/CRAN.package.RNAseqQC> <https://doi.org/10.32614/CRAN.package.RNAseqQC>, Rpackage version 0.2.1, <https://CRAN.R-project.org/package=RNAseqQC>.
+-   *Shiny - Including HTML, text, and Markdown files*. (2014, July 29). Shiny. <https://shiny.posit.co/r/gallery/application-layout/including-html-text-and-markdown-files/>
+
+-   *Shiny - Tabsets*. (2014, July 30). Shiny. <https://shiny.posit.co/r/gallery/application-layout/tabsets/>
+
+-   Wickham H (2016). *ggplot2: Elegant Graphics for Data Analysis*. Springer-Verlag New York. ISBN 978-3-319-24277-4, [https://ggplot2.tidyverse.org](https://ggplot2.tidyverse.org/).
+
+-   Ziebell F (2024). \_RNAseqQC: Quality Control for RNA-Seq Data\_. <doi:10.32614/CRAN.package.RNAseqQC> <https://doi.org/10.32614/CRAN.package.RNAseqQC>, Rpackage version 0.2.1, <https://CRAN.R-project.org/package=RNAseqQC>.
 
 ```{r}
 sessionInfo()
