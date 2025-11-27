@@ -19,7 +19,8 @@ Depends:
 Imports:
   Seurat,
   ggplot2,
-  stats
+  stats,
+  shiny
 Suggests: 
     knitr,
     rmarkdown,
