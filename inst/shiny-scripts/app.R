@@ -23,7 +23,6 @@
 # https://shiny.posit.co/r/gallery/application-layout/tabsets/
 
 library(shiny)
-library(QCseq)
 
 # Define UI for QCseq app
 ui <- fluidPage(
@@ -356,15 +355,24 @@ head(qc_results)</code></pre>
           verbatimTextOutput("qc_summary")
         ),
 
-        # ---- QC metrics table tab ----
+        # ---- QCcompute tab ----
         tabPanel(
-          "QC metrics table",
-          h3("Per-cell QC metrics and unified QC score"),
-          p("This table shows the output of QCseq::QCscore(), including
-             n_genes, n_transcripts, percent_mit, percent_ribo, and
-             qc_score_rank for each cell."),
+          "QCcompute",
+          h3("Independent QC metrics (QCcompute)"),
+          p("This table shows the per-cell QC metrics computed by QCseq::QCcompute(), including
+             n_genes, n_transcripts, percent_mit, and percent_ribo for each cell."),
           br(),
-          tableOutput("qc_table")
+          tableOutput("qc_compute_table")
+        ),
+
+        # ---- QCscore tab ----
+        tabPanel(
+          "QCscore",
+          h3("QC metrics + unified QC score (QCscore)"),
+          p("This table shows the output of QCseq::QCscore(), which augments the QCcompute metrics
+             with the unified QC rank score qc_score_rank for each cell."),
+          br(),
+          tableOutput("qc_score_table")
         ),
 
         # ---- QC histogram tab ----
@@ -392,15 +400,18 @@ server <- function(input, output) {
 
   # ---- Load Seurat object (uploaded or example) ----
   seurat_data <- reactive({
-    # If user uploads a file, use that
+    # Case 1: user uploaded a file
     if (!is.null(input$seurat_file)) {
       obj <- readRDS(input$seurat_file$datapath)
-    } else {
-      # Otherwise, require that use_example is TRUE and load example
-      req(input$use_example)
 
+      # Case 2: user wants to use example dataset
+    } else if (isTRUE(input$use_example)) {
       data("sample_scRNAseq", package = "QCseq", envir = environment())
       obj <- get("sample_scRNAseq", envir = environment())
+
+      # Case 3: neither example nor upload -> no data
+    } else {
+      return(NULL)
     }
 
     # Basic checks: must be Seurat with RNA assay
@@ -410,7 +421,13 @@ server <- function(input, output) {
     obj
   })
 
-  # ---- Compute QC metrics + unified score ----
+  # ---- QCcompute: independent QC metrics ----
+  qc_compute <- reactive({
+    req(seurat_data())
+    QCseq::QCcompute(seurat_data())
+  })
+
+  # ---- QCscore: QC metrics + unified score ----
   qc_results <- reactive({
     req(seurat_data())
     QCseq::QCscore(seurat_data())
@@ -427,16 +444,17 @@ server <- function(input, output) {
     )
   })
 
-  # ---- QC metrics table ----
-  output$qc_table <- renderTable({
+  # ---- QCcompute table ----
+  output$qc_compute_table <- renderTable({
+    req(qc_compute())
+    qc_compute()
+  }, rownames = FALSE)
+
+  # ---- QCscore table ----
+  output$qc_score_table <- renderTable({
     req(qc_results())
     qc_results()
-  },
-  rownames = FALSE,
-  spacing = "xs",
-  width   = "auto",
-  align   = "l"
-  )
+  }, rownames = FALSE)
 
   # ---- Histogram of QC scores ----
   output$qc_histogram <- renderPlot({
