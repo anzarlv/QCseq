@@ -21,7 +21,8 @@ knitr::opts_chunk$set(
 To download **QCseq**, use the following commands:
 
 ``` r
-require("devtools")
+install.packages("devtools")
+library("devtools")
 devtools::install_github("anzarlv/QCseq", build_vignettes = TRUE)
 library("QCseq")
 ```
@@ -76,7 +77,7 @@ qc_score_rank <- metrics_with_score$qc_score_rank
 # qc_score_rank can be accessed from the output of QCscore
 ```
 
-The QCscore function is the key function for the package. This function will collect the QC metrics from the QCcompute function, then by MAD standardization and rank-based scores, output a unified QC score for users. [**This is the key novelty aspect of the package and it is what many researchers would find useful**]{.underline}. Having a signature multivariate QC score from multiple independent metrics gives users a powerful quantified value which reflects the quality of their scRNA-seq data and makes data filtering an easier and more seamless process.
+The QCscore function is the key function for the package. This function will collect the QC metrics from the QCcompute function, then by MAD standardization and rank-based scores, output a unified QC score for users. [**This is the key novelty aspect of the package**]{.underline} and it is what many researchers would find useful. Having a signature multivariate QC score from multiple independent metrics gives users a powerful quantified value which reflects the quality of their scRNA-seq data and makes data filtering an easier and more seamless process.
 
 ## Return a clear summary report for the gene expression data
 
